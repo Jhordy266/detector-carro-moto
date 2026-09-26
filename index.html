@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detector de Carros y Motos</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@latest/dist/teachablemachine-image.min.js"></script>
+</head>
+
+<body>
+
+    <div class="container">
+        <h1>Detector de Carros y Motos</h1>
+
+        <p>Sube una imagen y el modelo detectará si es un carro o una motocicleta.</p>
+
+        <input type="file" id="imageUpload" accept="image/*">
+
+        <div class="preview-container">
+            <img id="preview" src="" alt="Vista previa">
+        </div>
+
+        <button id="predictButton">Analizar imagen</button>
+
+        <div id="resultado">
+            Esperando una imagen...
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+
+</body>
+</html>
