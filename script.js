@@ -41,7 +41,6 @@ imageUpload.addEventListener("change", function (event) {
 });
 
 predictButton.addEventListener("click", async function () {
-
     if (!model) {
         resultado.innerText = "El modelo todavía no está cargado.";
         return;
@@ -52,23 +51,37 @@ predictButton.addEventListener("click", async function () {
         return;
     }
 
-    resultado.innerText = "Analizando...";
+    try {
+        // Mostrar estado de carga
+        predictButton.disabled = true;
+        predictButton.innerText = "Analizando...";
+        resultado.innerHTML = "Analizando imagen, espera un momento...";
 
-    const prediction = await model.predict(preview);
+        // Darle tiempo al navegador para actualizar la interfaz
+        await new Promise(resolve => setTimeout(resolve, 100));
 
-    prediction.sort((a, b) => b.probability - a.probability);
+        const prediction = await model.predict(preview);
 
-    const mejorResultado = prediction[0];
+        prediction.sort((a, b) => b.probability - a.probability);
 
-    const porcentaje = (mejorResultado.probability * 100).toFixed(2);
+        const mejorResultado = prediction[0];
+        const porcentaje = (mejorResultado.probability * 100).toFixed(2);
 
-    resultado.innerHTML = `
-        Resultado: <strong>${mejorResultado.className}</strong>
-        <br>
-        Confianza: <strong>${porcentaje}%</strong>
-    `;
+        resultado.innerHTML = `
+            Resultado: <strong>${mejorResultado.className}</strong>
+            <br>
+            Confianza: <strong>${porcentaje}%</strong>
+        `;
 
-    console.log(prediction);
+        console.log(prediction);
+
+    } catch (error) {
+        console.error(error);
+        resultado.innerText = "Ocurrió un error al analizar la imagen.";
+    } finally {
+        predictButton.disabled = false;
+        predictButton.innerText = "Analizar imagen";
+    }
 });
 
 cargarModelo();
